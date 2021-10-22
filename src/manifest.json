@@ -26,6 +26,25 @@
       "matches": []
     }
   ],
+  "commands": {
+    "create-meeting": {
+      "suggested_key": {
+        "default": "Alt+X"
+      },
+      "description": "Create a new meeting"
+    },
+    "copy-link": {
+      "suggested_key": {
+        "default": "Alt+Y"
+      },
+      "description": "Copy the current link to clipboard"
+    },
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Alt+Z"
+      }
+    }
+  },
   "oauth2": {
     "client_id": "875100201030-cj3f3hppkeoeekt55ta7ethimiqc7kja.apps.googleusercontent.com",
     "scopes": [

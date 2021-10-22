@@ -6,6 +6,91 @@ import './Popup.css';
 import icon from '../../assets/img/meet.png';
 
 class Popup extends Component {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(props) {
+    super(props);
+    this.state = {
+      id: '',
+      email: '',
+      isLoading: false,
+    };
+  }
+  componentDidMount() {
+    //fetch from local storage every time the popup is activated
+    chrome.storage.sync.get(['meetID'], (result) => {
+      console.log('Value currently is ' + result);
+      this.setState({
+        id: result.meetID,
+      });
+    });
+    chrome.storage.sync.get(['email'], (result) => {
+      console.log('Value currently is ' + result);
+      this.setState({
+        email: result.email,
+      });
+    });
+
+    //Listens to messages sent by background
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+      if (request.msg === 'something_completed') {
+        //  To do something
+        console.log(request);
+
+        this.setState({
+          isLoading: false,
+          id: request.meetID,
+          email: request.org,
+        });
+      }
+      if (request.msg === 'copy_link') {
+        this.copyToClip();
+      }
+      if (request.msg === 'user_changed') {
+        console.log('inside user change');
+        this.setState({
+          isLoading: false,
+        });
+      }
+      if (request.msg === 'btn_press') {
+        console.log('inside btn press');
+        this.setState({
+          isLoading: true,
+        });
+      }
+    });
+  }
+
+  switchUser = () => {
+    this.setState({
+      id: '',
+      email: '',
+      isLoading: true,
+    });
+
+    chrome.storage.sync.set({ meetID: '' }, function () {
+      console.log('Value is set to null');
+    });
+    chrome.storage.sync.set({ email: '' }, function () {
+      console.log('Value is set to null');
+    });
+
+    chrome.runtime.sendMessage({ message: 'switch_user' });
+  };
+
+  createMeet = () => {
+    this.setState({
+      isLoading: true,
+    });
+    console.log('creating');
+    chrome.runtime.sendMessage({ message: 'get_event' });
+  };
+
+  copyToClip = () => {
+    console.log('Copying...');
+    let content = document.getElementById('con');
+    content.select();
+    document.execCommand('copy');
+  };
   
   render() {
     return (
@@ -39,7 +124,7 @@ class Popup extends Component {
           </div>
           <div className="shortcut">
             <p className="clipboard-para">
-              Click above or press Alt+N to create a new meeting
+              Click above or press Alt+X to create a new meeting
             </p>
           </div>
         </div>
@@ -54,7 +139,7 @@ class Popup extends Component {
                 readOnly="readOnly"
               />
               <p className="clipboard-para">
-                Click above to copy the Link or press Alt+C
+                Click above to copy the Link or press Alt+Y
               </p>
             </div>
           </div>
