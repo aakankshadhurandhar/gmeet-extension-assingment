@@ -1,45 +1,126 @@
-.App {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  text-align: center;
-  height: 100%;
-  padding: 10px;
-  background-color: #282c34;
+.nav {
+  width: 100%;
+  height: 15vh;
+  background-color: #2b2b2b;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0px 1px 10px #999;
 }
 
-.App-logo {
-  height: 30vmin;
-  pointer-events: none;
+.nav div {
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.switch h3 {
+  cursor: pointer;
+  /*width: 20px;*/
+  border: 2px solid white;
+  padding: 5px;
+  border-radius: 3px;
 }
 
-.App-header {
-  height: 100%;
+.switch h3:hover {
+  color: #2b2b2b;
+  background-color: white;
+}
+
+.main {
+  height: 75vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  justify-content: space-evenly;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.meet {
+  display: flex;
+}
+
+.meetBtn {
+  width: 175px;
+  height: 45px;
+  text-decoration: none;
+  background-color: #3a8d7f;
+  border: 0;
   color: white;
+  font-size: medium;
+  font-weight: bolder;
+  cursor: pointer;
+  border-radius: 3px;
+  margin: 0 10px;
 }
 
-.App-link {
-  color: #61dafb;
+.meetBtn:hover {
+  background-color: #004d40;
 }
 
-@keyframes App-logo-spin {
-  from {
+.clipboard-input {
+  border-radius: 3px;
+  border: 2px solid rgba(0, 0, 0, 0.09);
+  width: 275px;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.clipboard-input:hover {
+  background-color: rgba(0, 0, 0, 0.09);
+}
+
+.clipboard-para {
+  text-align: center;
+  color: #444444;
+}
+
+.clipboard-input::selection {
+  background-color: gray;
+}
+
+.footer {
+  padding-left: 10px;
+  color: #444444;
+}
+
+.loader {
+  margin: auto;
+  border: 6px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 6px solid #3a8d7f;
+  width: 25px;
+  height: 25px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
     transform: rotate(0deg);
   }
-  to {
+  100% {
     transform: rotate(360deg);
   }
+}
+
+.meetBtn:hover .loader {
+  border-top: 6px solid #004d40;
 }
