@@ -1,33 +1,29 @@
 
   
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import logo from '../../assets/img/logo.svg';
 import './Popup.css';
 import icon from '../../assets/img/meet.png';
 
-class Popup extends Component {
+function Popup () {
   // eslint-disable-next-line no-useless-constructor
-  constructor(props) {
-    super(props);
-    this.state = {
-      id: '',
-      email: '',
-      isLoading: false,
-    };
-  }
-  componentDidMount() {
+  const[id,setid]=useState('')
+  const[email,setemail]=useState('')
+  const[isLoading,setisLoading]=useState(false)
+
+  
+  
+  useEffect(() =>{
     //fetch from local storage every time the popup is activated
     chrome.storage.sync.get(['meetID'], (result) => {
       console.log('Value currently is ' + result);
-      this.setState({
-        id: result.meetID,
-      });
+      setid(result.meetID)
+      
     });
     chrome.storage.sync.get(['email'], (result) => {
       console.log('Value currently is ' + result);
-      this.setState({
-        email: result.email,
-      });
+      setemail(result.email)
+     
     });
 
     //Listens to messages sent by background
@@ -35,37 +31,32 @@ class Popup extends Component {
       if (request.msg === 'something_completed') {
         //  To do something
         console.log(request);
-
-        this.setState({
-          isLoading: false,
-          id: request.meetID,
-          email: request.org,
-        });
+        setisLoading(false)
+        setid(request.meetID)
+        setemail(request.org)
+        
       }
       if (request.msg === 'copy_link') {
-        this.copyToClip();
+        copyToClip();
       }
       if (request.msg === 'user_changed') {
         console.log('inside user change');
-        this.setState({
-          isLoading: false,
-        });
+        setisLoading(false)
+       
       }
       if (request.msg === 'btn_press') {
         console.log('inside btn press');
-        this.setState({
-          isLoading: true,
-        });
+        setisLoading(true)
+        
       }
     });
-  }
+  })
 
-  switchUser = () => {
-    this.setState({
-      id: '',
-      email: '',
-      isLoading: true,
-    });
+  const switchUser = () => {
+    setid('')
+    setemail('')
+    setisLoading(true)
+    
 
     chrome.storage.sync.set({ meetID: '' }, function () {
       console.log('Value is set to null');
@@ -77,28 +68,27 @@ class Popup extends Component {
     chrome.runtime.sendMessage({ message: 'switch_user' });
   };
 
-  createMeet = () => {
-    this.setState({
-      isLoading: true,
-    });
+  const createMeet = () => {
+    setisLoading(true)
+    
     console.log('creating');
     chrome.runtime.sendMessage({ message: 'get_event' });
   };
 
-  copyToClip = () => {
+  const copyToClip = () => {
     console.log('Copying...');
     let content = document.getElementById('con');
     content.select();
     document.execCommand('copy');
   };
   
-  render() {
+  
     return (
       <div className="App">
       <div className="nav">
         <div className="welcome"></div>
         <div className="switch">
-          <h3 onClick={this.switchUser} className="switch-img">
+          <h3 onClick={switchUser} className="switch-img">
             Switch User
           </h3>
         </div>
@@ -112,10 +102,10 @@ class Popup extends Component {
             </div>
             <button
               className="meetBtn"
-              onClick={this.createMeet}
-              disabled={this.state.isLoading}
+              onClick={createMeet}
+              disabled={isLoading}
             >
-              {this.state.isLoading ? (
+              {isLoading ? (
                 <div className="loader"></div>
               ) : (
                 <span>&#x2b; &nbsp;New meeting</span>
@@ -128,14 +118,14 @@ class Popup extends Component {
             </p>
           </div>
         </div>
-        {this.state.id && (
+        {id && (
           <div className="clipboard">
             <div>
               <input
                 className="clipboard-input"
                 id="con"
-                onClick={this.copyToClip}
-                value={this.state.id}
+                onClick={copyToClip}
+                value={id}
                 readOnly="readOnly"
               />
               <p className="clipboard-para">
@@ -145,14 +135,14 @@ class Popup extends Component {
           </div>
         )}
       </div>
-      {this.state.email && (
+      {email && (
         <div>
-          <p className="footer">Organizer: {this.state.email}</p>
+          <p className="footer">Organizer: {email}</p>
         </div>
       )}
     </div>
     );
   }
-}
+
 
 export default Popup;
