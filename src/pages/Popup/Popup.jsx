@@ -1,7 +1,6 @@
 
   
 import React, { Component, useEffect, useState } from 'react';
-import logo from '../../assets/img/logo.svg';
 import './Popup.css';
 import icon from '../../assets/img/meet.png';
 
