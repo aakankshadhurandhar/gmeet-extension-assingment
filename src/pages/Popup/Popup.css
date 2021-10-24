@@ -84,7 +84,7 @@
 }
 
 .clipboard-input::selection {
-  background-color: gray;
+  background-color: cadetblue;
 }
 
 .footer {

@@ -1,11 +1,11 @@
 
   
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Popup.css';
 import icon from '../../assets/img/meet.png';
 
 function Popup () {
-  // eslint-disable-next-line no-useless-constructor
+ 
   const[id,setid]=useState('')
   const[email,setemail]=useState('')
   const[isLoading,setisLoading]=useState(false)
@@ -15,12 +15,12 @@ function Popup () {
   useEffect(() =>{
     //fetch from local storage every time the popup is activated
     chrome.storage.sync.get(['meetID'], (result) => {
-      console.log('Value currently is ' + result);
+      
       setid(result.meetID)
       
     });
     chrome.storage.sync.get(['email'], (result) => {
-      console.log('Value currently is ' + result);
+      
       setemail(result.email)
      
     });
@@ -29,7 +29,7 @@ function Popup () {
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       if (request.msg === 'something_completed') {
         //  To do something
-        console.log(request);
+        
         setisLoading(false)
         setid(request.meetID)
         setemail(request.org)
@@ -39,12 +39,12 @@ function Popup () {
         copyToClip();
       }
       if (request.msg === 'user_changed') {
-        console.log('inside user change');
+        
         setisLoading(false)
        
       }
       if (request.msg === 'btn_press') {
-        console.log('inside btn press');
+        
         setisLoading(true)
         
       }
