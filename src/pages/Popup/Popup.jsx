@@ -76,7 +76,7 @@ function Popup () {
 
   const copyToClip = () => {
     console.log('Copying...');
-    let content = document.getElementById('con');
+    let content = document.getElementById('clip');
     content.select();
     document.execCommand('copy');
   };
@@ -122,7 +122,7 @@ function Popup () {
             <div>
               <input
                 className="clipboard-input"
-                id="con"
+                id="clip"
                 onClick={copyToClip}
                 value={id}
                 readOnly="readOnly"

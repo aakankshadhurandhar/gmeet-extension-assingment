@@ -35,6 +35,10 @@
   account -> Go to advanced -> go to gmeet(unsafe)
   ![Permission](src/assets/img/permission_img.png)
 
+### Demo
+
+![demo](src/assets/img/demo.gif)
+
 ### To-do
 
 - [x] Make a Google Chrome extension to allow users to create a new  
