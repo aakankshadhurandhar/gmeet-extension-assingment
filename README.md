@@ -49,6 +49,10 @@
 - [x] Optimize the act of meeting creation by allowing users to create and
       share links only using Keyboard shortcuts.
 
+### New Improvements
+
+- [] Make standardjs.com or prettier part of the commit hook.
+
 ### Note
 
 - The Extension key in manifest and oauth client id are not hidden on purpose of testing.

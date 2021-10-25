@@ -36,6 +36,7 @@ function Popup () {
         
       }
       if (request.msg === 'copy_link') {
+  console.log("yess")
         copyToClip();
       }
       if (request.msg === 'user_changed') {
