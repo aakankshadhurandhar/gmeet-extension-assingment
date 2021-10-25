@@ -1,62 +1,47 @@
-
-  
 import React, { useEffect, useState } from 'react';
 import './Popup.css';
 import icon from '../../assets/img/meet.png';
 
-function Popup () {
- 
-  const[id,setid]=useState('')
-  const[email,setemail]=useState('')
-  const[isLoading,setisLoading]=useState(false)
+function Popup() {
+  const [id, setid] = useState('');
+  const [email, setemail] = useState('');
+  const [isLoading, setisLoading] = useState(false);
 
-  
-  
-  useEffect(() =>{
+  useEffect(() => {
     //fetch from local storage every time the popup is activated
     chrome.storage.sync.get(['meetID'], (result) => {
-      
-      setid(result.meetID)
-      
+      setid(result.meetID);
     });
     chrome.storage.sync.get(['email'], (result) => {
-      
-      setemail(result.email)
-     
+      setemail(result.email);
     });
 
     //Listens to messages sent by background
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       if (request.msg === 'something_completed') {
         //  To do something
-        
-        setisLoading(false)
-        setid(request.meetID)
-        setemail(request.org)
-        
+
+        setisLoading(false);
+        setid(request.meetID);
+        setemail(request.org);
       }
       if (request.msg === 'copy_link') {
-  console.log("yess")
+        console.log('yess');
         copyToClip();
       }
       if (request.msg === 'user_changed') {
-        
-        setisLoading(false)
-       
+        setisLoading(false);
       }
       if (request.msg === 'btn_press') {
-        
-        setisLoading(true)
-        
+        setisLoading(true);
       }
     });
-  })
+  });
 
   const switchUser = () => {
-    setid('')
-    setemail('')
-    setisLoading(true)
-    
+    setid('');
+    setemail('');
+    setisLoading(true);
 
     chrome.storage.sync.set({ meetID: '' }, function () {
       console.log('Value is set to null');
@@ -69,8 +54,8 @@ function Popup () {
   };
 
   const createMeet = () => {
-    setisLoading(true)
-    
+    setisLoading(true);
+
     console.log('creating');
     chrome.runtime.sendMessage({ message: 'get_event' });
   };
@@ -81,10 +66,9 @@ function Popup () {
     content.select();
     document.execCommand('copy');
   };
-  
-  
-    return (
-      <div className="App">
+
+  return (
+    <div className="App">
       <div className="nav">
         <div className="welcome"></div>
         <div className="switch">
@@ -141,8 +125,7 @@ function Popup () {
         </div>
       )}
     </div>
-    );
-  }
-
+  );
+}
 
 export default Popup;
