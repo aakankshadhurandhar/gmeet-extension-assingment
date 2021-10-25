@@ -51,7 +51,7 @@
 
 ### New Improvements
 
-- [] Make standardjs.com or prettier part of the commit hook.
+- [x] Make standardjs.com or prettier part of the commit hook.
 
 ### Note
 
