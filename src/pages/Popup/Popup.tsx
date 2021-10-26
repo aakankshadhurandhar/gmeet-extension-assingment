@@ -36,7 +36,7 @@ const Popup: React.FC = () => {
         setisLoading(true);
       }
     });
-  });
+  }, []);
 
   const switchUser = () => {
     setid('');
