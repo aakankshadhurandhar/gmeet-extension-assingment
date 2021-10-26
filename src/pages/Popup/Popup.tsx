@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './Popup.css';
-import icon from '../../assets/img/meet.png';
+const icon = require('../../assets/img/meet.png');
 
-function Popup() {
-  const [id, setid] = useState('');
-  const [email, setemail] = useState('');
-  const [isLoading, setisLoading] = useState(false);
+const Popup: React.FC = () => {
+  const [id, setid] = useState<number | string>('');
+  const [email, setemail] = useState<string>('');
+  const [isLoading, setisLoading] = useState<boolean | undefined>(false);
 
   useEffect(() => {
     //fetch from local storage every time the popup is activated
@@ -62,8 +62,8 @@ function Popup() {
 
   const copyToClip = () => {
     console.log('Copying...');
-    let content = document.getElementById('clip');
-    content.select();
+    const content = document.getElementById('clip')!.onselect;
+
     document.execCommand('copy');
   };
 
@@ -110,7 +110,7 @@ function Popup() {
                 id="clip"
                 onClick={copyToClip}
                 value={id}
-                readOnly="readOnly"
+                readOnly="readonly"
               />
               <p className="clipboard-para">
                 Click above to copy the Link or press Alt+Y
@@ -126,6 +126,6 @@ function Popup() {
       )}
     </div>
   );
-}
+};
 
 export default Popup;
