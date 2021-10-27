@@ -17,23 +17,27 @@ const Popup: React.FC = () => {
     });
 
     //Listens to messages sent by background
-    chrome.runtime.onMessage.addListener(async function (request) {
+    function Options(request: any) {
+      if (!request) return alert('Hold onn...');
       if (request.msg === 'something_completed') {
         //  To do something
 
         setisLoading(false);
         setid(request.meetID);
         setemail(request.org);
-      }
-      if (request.msg === 'copy_link') {
+      } else if (request.msg === 'copy_link') {
         copyToClip();
-      }
-      if (request.msg === 'user_changed') {
+      } else if (request.msg === 'user_changed') {
         setisLoading(false);
-      }
-      if (request.msg === 'btn_press') {
+      } else if (request.msg === 'btn_press') {
         setisLoading(true);
+      } else {
+        alert('hang in there some problem happened');
       }
+      chrome.runtime.onMessage.removeListener(Options);
+    }
+    chrome.runtime.onMessage.addListener(function (request: any) {
+      Options(request);
     });
   }, []);
 
