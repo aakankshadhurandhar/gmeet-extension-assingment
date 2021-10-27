@@ -17,7 +17,7 @@ const Popup: React.FC = () => {
     });
 
     //Listens to messages sent by background
-    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    chrome.runtime.onMessage.addListener(async function (request) {
       if (request.msg === 'something_completed') {
         //  To do something
 
@@ -26,7 +26,6 @@ const Popup: React.FC = () => {
         setemail(request.org);
       }
       if (request.msg === 'copy_link') {
-        console.log('yess');
         copyToClip();
       }
       if (request.msg === 'user_changed') {
@@ -60,12 +59,11 @@ const Popup: React.FC = () => {
     chrome.runtime.sendMessage({ message: 'get_event' });
   };
 
-  const copyToClip = () => {
-    console.log('Copying...');
+  function copyToClip() {
     const content = document.getElementById('clip')!.onselect;
 
     document.execCommand('copy');
-  };
+  }
 
   return (
     <div className="App">

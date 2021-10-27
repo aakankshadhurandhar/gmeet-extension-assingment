@@ -53,10 +53,15 @@
 
 - [x] Make standardjs.com or prettier part of the commit hook.
 
+- [x] Made the whole project typescript
+- [x] Made browser cross platform
+      ![firefox demo](src/assets/img/firefox.gif)
+
 ### Note
 
 - The Extension key in manifest and oauth client id are not hidden on purpose of testing.
 - By default the meet time is set to 60min .
+- For using as a firefox extension : add as an temporary add-on and make manifest-version : 2 and remove : identity.email
 
 ## Resources
 
