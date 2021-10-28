@@ -183,6 +183,18 @@ var options = {
       cache: false,
     }),
     new HtmlWebpackPlugin({
+      template: path.join(
+        __dirname,
+        'src',
+        'pages',
+        'Background',
+        'index.html'
+      ),
+      filename: 'background.html',
+      chunks: ['background'],
+      cache: false,
+    }),
+    new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src', 'pages', 'Devtools', 'index.html'),
       filename: 'devtools.html',
       chunks: ['devtools'],

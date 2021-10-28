@@ -1,12 +1,11 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 2,
   "name": "Gmeet Extension",
-  "background": { "service_worker": "background.bundle.js" },
-  "action": {
+  "background": { "page": "background.html" },
+  "browser_action": {
     "default_popup": "popup.html",
     "default_icon": "icon-34.png"
   },
-
   "icons": {
     "128": "icon-128.png"
   },
@@ -20,10 +19,9 @@
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAusVm3Jaryk+A4XMJxnLPabr7g74RgRwkFC3TQZsAeMb8+qsApE2SGyU6hWtNHiAPpbz1Z9VqEMItZGpyI6JLXKKdkwzfYbI75cLhf9ghXUfpCxkk1dghL57hFKEcFOCP50G/XHKn/JXYsAH8CeJ2odMgxtTTMyb6dCNKohbWKDodAYay2ll+WmjwspA3wRXqxxrSjWHZ6LOBr9Q5SqNGqgFUkBPYOvRypPfHyf7FJh/xuzRJ+D2xxWG4nl1hRqoHly6Sl598SGedTFMZ8LS91+Ubt3nowqUDv/tXHM0MwxICODqmhnr0XH1VyvBmvdy0S9yvMOqzddOU7E8me1XkLwIDAQAB",
   "devtools_page": "devtools.html",
   "web_accessible_resources": [
-    {
-      "resources": ["content.styles.css", "icon-128.png", "icon-34.png"],
-      "matches": []
-    }
+    "content.styles.css",
+    "icon-128.png",
+    "icon-34.png"
   ],
   "commands": {
     "create-meeting": {
@@ -53,8 +51,6 @@
       "https://www.googleapis.com/auth/calendar.readonly"
     ]
   },
-  "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'"
-  },
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "permissions": ["identity", "identity.email", "storage"]
 }
