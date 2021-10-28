@@ -2,17 +2,21 @@ import '../../assets/img/icon-34.png';
 import '../../assets/img/icon-128.png';
 import browser from 'webextension-polyfill';
 function Commands(command: string) {
-  if (command === 'copy-link') {
-    chrome.runtime.sendMessage({
-      msg: 'copy_link',
-    });
-  } else if (command === 'create-meeting') {
-    chrome.runtime.sendMessage({
-      msg: 'btn_press',
-    });
-    createMeeting();
-  } else alert('wrong command');
-  chrome.commands.onCommand.removeListener(Commands);
+  try {
+    if (command === 'copy-link') {
+      chrome.runtime.sendMessage({
+        msg: 'copy_link',
+      });
+    } else if (command === 'create-meeting') {
+      chrome.runtime.sendMessage({
+        msg: 'btn_press',
+      });
+      createMeeting();
+    } else alert('wrong command');
+    chrome.commands.onCommand.removeListener(Commands);
+  } catch (e) {
+    alert('Some error there please wait');
+  }
 }
 // Listening to key press events
 chrome.commands.onCommand.addListener(function (command) {
@@ -71,7 +75,8 @@ function createMeeting() {
         'https://www.googleapis.com/calendar/v3/calendars/primary/events?conferenceDataVersion=1',
         fetch_options
       )
-        .then((response) => response.json()) // Transform the data into json
+        .then((response) => response.json())
+        // Transform the data into json
         .then(function (data) {
           console.log(data);
           chrome.storage.sync.set({ meetID: data.hangoutLink }, function () {
@@ -85,48 +90,61 @@ function createMeeting() {
             meetID: data.hangoutLink,
             org: data.creator.email,
           });
-        });
+        })
+        .catch((err) => alert('please reload extension'));
     }
   );
 }
 //get authtoken doesnot support promises
 function Switchuser() {
-  chrome.identity.getAuthToken(
-    { interactive: true },
-    async function (token: string) {
-      if (chrome.runtime.lastError) {
-        alert('please wait something wrong');
-      }
+  try {
+    chrome.identity.getAuthToken(
+      { interactive: true },
+      async function (token: string) {
+        if (chrome.runtime.lastError) {
+          alert('please wait something wrong');
+        }
 
-      if (!chrome.runtime.lastError) {
-        let url = 'https://accounts.google.com/o/oauth2/revoke?token=' + token;
-        await fetch(url).then(() => {
-          chrome.identity.removeCachedAuthToken({ token: token }, function () {
-            chrome.identity.getAuthToken(
-              { interactive: true },
-              function (token) {
-                chrome.runtime.sendMessage({
-                  msg: 'user_changed',
-                });
+        if (!chrome.runtime.lastError) {
+          let url =
+            'https://accounts.google.com/o/oauth2/revoke?token=' + token;
+          await fetch(url).then(() => {
+            chrome.identity.removeCachedAuthToken(
+              { token: token },
+              function () {
+                chrome.identity.getAuthToken(
+                  { interactive: true },
+                  function (token) {
+                    chrome.runtime.sendMessage({
+                      msg: 'user_changed',
+                    });
+                  }
+                );
               }
             );
           });
-        });
+        }
       }
-    }
-  );
+    );
+  } catch (e) {
+    alert('please wait some problem there');
+  }
 }
 
 function Trigger(request: any) {
-  if (request.message === 'get_event') {
-    createMeeting();
-  } else if (request.message === 'switch_user') {
-    Switchuser();
-  } else {
-    alert('hold on something wrong');
-  }
+  try {
+    if (request.message === 'get_event') {
+      createMeeting();
+    } else if (request.message === 'switch_user') {
+      Switchuser();
+    } else {
+      alert('hold on something wrong');
+    }
 
-  chrome.runtime.onMessage.removeListener(Trigger);
+    chrome.runtime.onMessage.removeListener(Trigger);
+  } catch (e) {
+    alert('please wait some problem there');
+  }
 }
 
 //Listening to event triggers from the frontend

@@ -57,12 +57,15 @@
 - [x] Made browser cross platform
       ![firefox demo](src/assets/img/firefox.gif)
 - [x] Added removelisteners to all chrome listeners
+- [x] Added error handling to popup.tsx and background.
 
 ### Note
 
 - The Extension key in manifest and oauth client id are not hidden on purpose of testing.
 - By default the meet time is set to 60min .
-- For using as a firefox extension : add as an temporary add-on and make manifest-version : 2 and remove : identity.email
+- For using as a firefox extension : make manifest-version : 2 and remove : identity.email or one can use Webextensions-polyfill branch
+- extension combability check
+  ![check](src/assets/img/check.png)
 
 ## Resources
 
@@ -73,3 +76,9 @@
 - [React chrome Extension Boilerplate](https://github.com/lxieyang/chrome-extension-boilerplate-react)
 - [Calender API playground](https://developers.google.com/calendar/api/v3/reference/events)
 - [Oauth 2.0 docs](https://developers.google.com/identity/protocols/oauth2)
+- [Precommit hook prettier](https://dev.to/ajmaurya/set-up-eslint-prettier-and-pre-commit-hooks-using-husky-for-wordpress-from-scratch-1djk)
+- [error handling in extension](https://stackoverflow.com/questions/14517184/exception-handling-in-chrome-extensions)
+- [Porting chrome extension to firefox](https://extensionworkshop.com/documentation/develop/porting-a-google-chrome-extension/)
+- [Typescript crash course](https://www.youtube.com/watch?v=jrKcJxF0lAU&feature=youtu.be)
+- [remove chrome eventlisteners](<https://stackoverflow.com/questions/10466567/how-to-remove-event-listener-in-chrome-extension#:~:text=addListener(%20function(request)%7B%20chrome,()%3B%20other_function(request)%3B%20%7D%20)%3B>)
+- [Promises in chrome extension](https://developer.chrome.com/docs/extensions/mv3/promises/)

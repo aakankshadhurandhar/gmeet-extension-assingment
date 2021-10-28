@@ -18,23 +18,26 @@ const Popup: React.FC = () => {
 
     //Listens to messages sent by background
     function Options(request: any) {
-      if (!request) return alert('Hold onn...');
-      if (request.msg === 'something_completed') {
-        //  To do something
+      try {
+        if (request.msg === 'something_completed') {
+          //  To do something
 
-        setisLoading(false);
-        setid(request.meetID);
-        setemail(request.org);
-      } else if (request.msg === 'copy_link') {
-        copyToClip();
-      } else if (request.msg === 'user_changed') {
-        setisLoading(false);
-      } else if (request.msg === 'btn_press') {
-        setisLoading(true);
-      } else {
-        alert('hang in there some problem happened');
+          setisLoading(false);
+          setid(request.meetID);
+          setemail(request.org);
+        } else if (request.msg === 'copy_link') {
+          copyToClip();
+        } else if (request.msg === 'user_changed') {
+          setisLoading(false);
+        } else if (request.msg === 'btn_press') {
+          setisLoading(true);
+        } else {
+          alert('hang in there some problem happened');
+        }
+        chrome.runtime.onMessage.removeListener(Options);
+      } catch (e) {
+        alert('Please wait something is wrong');
       }
-      chrome.runtime.onMessage.removeListener(Options);
     }
     chrome.runtime.onMessage.addListener(function (request: any) {
       if (chrome.runtime.lastError) {
