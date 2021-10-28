@@ -6,7 +6,7 @@ const Popup: React.FC = () => {
   const [id, setid] = useState<number | string>('');
   const [email, setemail] = useState<string>('');
   const [isLoading, setisLoading] = useState<boolean | undefined>(false);
-
+  const [iserror, setiserror] = useState<boolean | undefined>(false);
   useEffect(() => {
     //fetch from local storage every time the popup is activated
     chrome.storage.sync.get(['meetID'], (result) => {
@@ -37,7 +37,11 @@ const Popup: React.FC = () => {
       chrome.runtime.onMessage.removeListener(Options);
     }
     chrome.runtime.onMessage.addListener(function (request: any) {
-      Options(request);
+      if (chrome.runtime.lastError) {
+        setiserror(true);
+      } else {
+        Options(request);
+      }
     });
   }, []);
 
@@ -81,51 +85,58 @@ const Popup: React.FC = () => {
       </div>
 
       <div className="main">
-        <div className="container">
-          <div className="meet">
-            <div className="icon">
-              <img src={icon} width="40px" alt="" />
+        {iserror ? (
+          <p>Sorry some error there please try later on</p>
+        ) : (
+          <div className="container">
+            <div className="meet">
+              <div className="icon">
+                <img src={icon} width="40px" alt="" />
+              </div>
+
+              <div>
+                <button
+                  className="meetBtn"
+                  onClick={createMeet}
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <div className="loader"></div>
+                  ) : (
+                    <span>&#x2b; &nbsp;New meeting</span>
+                  )}
+                </button>
+              </div>
+              <div className="shortcut">
+                <p className="clipboard-para">
+                  Click above or press Alt+X to create a new meeting
+                </p>
+              </div>
             </div>
-            <button
-              className="meetBtn"
-              onClick={createMeet}
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <div className="loader"></div>
-              ) : (
-                <span>&#x2b; &nbsp;New meeting</span>
-              )}
-            </button>
+            {id && (
+              <div className="clipboard">
+                <div>
+                  <input
+                    className="clipboard-input"
+                    id="clip"
+                    onClick={copyToClip}
+                    value={id}
+                    readOnly="readonly"
+                  />
+                  <p className="clipboard-para">
+                    Click above to copy the Link or press Alt+Y
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
-          <div className="shortcut">
-            <p className="clipboard-para">
-              Click above or press Alt+X to create a new meeting
-            </p>
-          </div>
-        </div>
-        {id && (
-          <div className="clipboard">
-            <div>
-              <input
-                className="clipboard-input"
-                id="clip"
-                onClick={copyToClip}
-                value={id}
-                readOnly="readonly"
-              />
-              <p className="clipboard-para">
-                Click above to copy the Link or press Alt+Y
-              </p>
-            </div>
+        )}
+        {email && (
+          <div>
+            <p className="footer">Organizer: {email}</p>
           </div>
         )}
       </div>
-      {email && (
-        <div>
-          <p className="footer">Organizer: {email}</p>
-        </div>
-      )}
     </div>
   );
 };

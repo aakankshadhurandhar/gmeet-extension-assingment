@@ -51,11 +51,12 @@
 
 ### New Improvements
 
-- [x] Make standardjs.com or prettier part of the commit hook.
+- [x] Made standardjs.com or prettier part of the commit hook.
 
 - [x] Made the whole project typescript
 - [x] Made browser cross platform
       ![firefox demo](src/assets/img/firefox.gif)
+- [x] Added removelisteners to all chrome listeners
 
 ### Note
 
